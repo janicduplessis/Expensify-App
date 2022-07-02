@@ -92,7 +92,11 @@ function goToWithdrawalAccountSetupStep(stepID, achData) {
         newACHData.subStep = CONST.BANK_ACCOUNT.SETUP_TYPE.MANUAL;
     }
 
-    Onyx.merge(ONYXKEYS.REIMBURSEMENT_ACCOUNT, {achData: {...newACHData, ...achData, currentStep: stepID}});
+    const reimbursementAccount = {achData: {...newACHData, ...achData, currentStep: stepID}};
+    Onyx.merge(ONYXKEYS.REIMBURSEMENT_ACCOUNT, reimbursementAccount);
+
+    const reimbursementAccountDraft = _.pick(reimbursementAccount.achData, _.keys(CONST.BANK_ACCOUNT.REIMBURSEMENT_ACCOUNT_DRAFT_PROPS));
+    Onyx.merge(ONYXKEYS.REIMBURSEMENT_ACCOUNT_DRAFT, reimbursementAccountDraft);
 }
 
 export {

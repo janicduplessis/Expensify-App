@@ -16,7 +16,7 @@ export {
     showBankAccountErrorModal,
     showBankAccountFormValidationError,
     setBankAccountFormValidationErrors,
-    resetReimbursementAccount,
+    resetReimbursementAccountErrors,
     resetFreePlanBankAccount,
     validateBankAccount,
     hideBankAccountErrors,
@@ -35,6 +35,93 @@ export {
     activateWallet,
     fetchUserWallet,
 } from './Wallet';
+
+function getOnyxDataForVBBA() {
+    return {
+        optimisticData: [
+            {
+                onyxMethod: 'merge',
+                key: ONYXKEYS.REIMBURSEMENT_ACCOUNT,
+                value: {
+                    loading: true,
+                    error: '',
+                },
+            },
+        ],
+
+        // No successData because PHP pusher is responsible for setting next step (along with isLoading false)
+        failureData: [
+            {
+                onyxMethod: 'merge',
+                key: ONYXKEYS.REIMBURSEMENT_ACCOUNT,
+                value: {
+                    loading: false,
+                    error: Localize.translateLocal('paymentsPage.addBankAccountFailure'),
+                },
+            },
+        ],
+    };
+}
+
+function updateBankAccountPlaidInfoForVBBA(bankAccountID, selectedPlaidBankAccount) {
+    const commandName = 'UpdateBankAccountPlaidInfoForVBBA';
+
+    const parameters = {
+        bankAccountID,
+        routingNumber: selectedPlaidBankAccount.routingNumber,
+        accountNumber: selectedPlaidBankAccount.accountNumber,
+        bank: selectedPlaidBankAccount.bankName,
+        plaidAccountID: selectedPlaidBankAccount.plaidAccountID,
+        plaidAccessToken: selectedPlaidBankAccount.plaidAccessToken,
+    };
+
+    API.write(commandName, parameters, getOnyxDataForVBBA());
+}
+
+function updateBankAccountManualInfoForVBBA(reimbursementAccountDraft) {
+    const commandName = 'UpdateBankAccountManualInfoForVBBA';
+
+    const parameters = {
+        bankAccountID: reimbursementAccountDraft.bankAccountID,
+        routingNumber: reimbursementAccountDraft.routingNumber,
+        accountNumber: reimbursementAccountDraft.accountNumber,
+        plaidMask: reimbursementAccountDraft.plaidMask,
+    };
+
+    API.write(commandName, parameters, getOnyxDataForVBBA());
+}
+
+function updateCompanyInfoForVBBA(reimbursementAccountDraft) {
+    const commandName = 'UpdateCompanyInfoForVBBA';
+
+    const parameters = {
+        bankAccountID: reimbursementAccountDraft.bankAccountID,
+
+        // Fields from the BankAccountStep
+        routingNumber: reimbursementAccountDraft.routingNumber,
+        accountNumber: reimbursementAccountDraft.accountNumber,
+        bank: reimbursementAccountDraft.bankName,
+        plaidAccountID: reimbursementAccountDraft.plaidAccountID,
+        isSavings: reimbursementAccountDraft.isSavings,
+        plaidAccessToken: reimbursementAccountDraft.plaidAccessToken,
+
+        // Fields from the CompanyStep
+        companyName: reimbursementAccountDraft.companyName,
+        addressStreet: reimbursementAccountDraft.addressStreet,
+        addressCity: reimbursementAccountDraft.addressCity,
+        addressState: reimbursementAccountDraft.addressState,
+        addressZip: reimbursementAccountDraft.addressZipCode,
+        website: reimbursementAccountDraft.website,
+        companyTaxID: reimbursementAccountDraft.companyTaxID,
+        incorporationDate: reimbursementAccountDraft.incorporationDate,
+        incorporationState: reimbursementAccountDraft.incorporationState,
+        incorporationType: reimbursementAccountDraft.incorporationType,
+        companyPhone: reimbursementAccountDraft.companyPhone,
+        hasNoConnectionToCannabis: reimbursementAccountDraft.hasNoConnectionToCannabis,
+    };
+
+    API.write(commandName, parameters, getOnyxDataForVBBA());
+}
 
 /**
  * We clear these out of storage once we are done with them so the user must re-enter Plaid credentials upon returning.
@@ -133,4 +220,7 @@ export {
     addPersonalBankAccount,
     deleteBankAccount,
     clearOnyxObject,
+    updateBankAccountPlaidInfoForVBBA,
+    updateBankAccountManualInfoForVBBA,
+    updateCompanyInfoForVBBA,
 };

@@ -11,7 +11,7 @@ export {
     showBankAccountErrorModal,
     setBankAccountFormValidationErrors,
     setPersonalBankAccountFormValidationErrorFields,
-    resetReimbursementAccount,
+    resetReimbursementAccountErrors,
     showBankAccountFormValidationError,
 } from './errors';
 

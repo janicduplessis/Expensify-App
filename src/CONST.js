@@ -1,5 +1,6 @@
 import lodashGet from 'lodash/get';
 import Config from 'react-native-config';
+import PropTypes from 'prop-types';
 import * as Url from './libs/Url';
 
 const CLOUDFRONT_URL = 'https://d2k5nsl2zxldvw.cloudfront.net';
@@ -28,6 +29,51 @@ const CONST = {
         DOMAIN: '@expensify.sms',
     },
     BANK_ACCOUNT: {
+        /** Note: When fetching REIMBURSEMENT_ACCOUNT, we update REIMBURSEMENT_ACCOUNT_DRAFT_PROPS based on these keys,
+         * so let's make sure they are always up to date */
+        REIMBURSEMENT_ACCOUNT_DRAFT_PROPS: {
+            bankAccountID: PropTypes.number,
+
+            /** Props needed for BankAccountStep */
+            accountNumber: PropTypes.string,
+            routingNumber: PropTypes.string,
+            hasAcceptedTerms: PropTypes.bool,
+            plaidAccountID: PropTypes.string,
+            plaidMask: PropTypes.string,
+
+            /** Props needed for CompanyStep */
+            companyName: PropTypes.string,
+            addressStreet: PropTypes.string,
+            addressCity: PropTypes.string,
+            addressState: PropTypes.string,
+            addressZipCode: PropTypes.string,
+            companyPhone: PropTypes.string,
+            website: PropTypes.string,
+            companyTaxID: PropTypes.string,
+            incorporationType: PropTypes.string,
+            incorporationDate: PropTypes.string,
+            incorporationState: PropTypes.string,
+            hasNoConnectionToCannabis: PropTypes.bool,
+
+            /** Props needed for RequestorStep */
+            firstName: PropTypes.string,
+            lastName: PropTypes.string,
+            requestorAddressStreet: PropTypes.string,
+            requestorAddressCity: PropTypes.string,
+            requestorAddressState: PropTypes.string,
+            requestorAddressZipCode: PropTypes.string,
+            dob: PropTypes.string,
+            ssnLast4: PropTypes.string,
+            isControllingOfficer: PropTypes.string,
+            isOnfidoSetupComplete: PropTypes.bool,
+
+            /** Props needed for ACHContractStep */
+            ownsMoreThan25Percent: PropTypes.bool,
+            hasOtherBeneficialOwners: PropTypes.bool,
+            acceptTermsAndConditions: PropTypes.bool,
+            certifyTrueInformation: PropTypes.bool,
+            beneficialOwners: PropTypes.array,
+        },
         PLAID: {
             ALLOWED_THROTTLED_COUNT: 2,
             ERROR: {

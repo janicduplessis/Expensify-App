@@ -210,7 +210,7 @@ class RequestorStep extends React.Component {
                                 dob: this.state.dob,
                                 ssnLast4: this.state.ssnLast4,
                             }}
-                            errors={this.props.reimbursementAccount.errors}
+                            errors={this.props.reimbursementAccount.errorFields}
                         />
                         <CheckboxWithLabel
                             isChecked={this.state.isControllingOfficer}

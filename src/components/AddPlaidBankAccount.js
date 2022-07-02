@@ -44,6 +44,9 @@ const propTypes = {
     /** Are we adding a withdrawal account? */
     allowDebit: PropTypes.bool,
 
+    /** If we're updated an existing bank account, what's its bank account ID? */
+    bankAccountID: PropTypes.number,
+
     ...withLocalizePropTypes,
 };
 
@@ -61,6 +64,7 @@ const defaultProps = {
     receivedRedirectURI: null,
     plaidLinkOAuthToken: '',
     allowDebit: false,
+    bankAccountID: 0,
 };
 
 class AddPlaidBankAccount extends React.Component {
@@ -84,7 +88,7 @@ class AddPlaidBankAccount extends React.Component {
         }
 
         BankAccounts.clearOnyxObject(ONYXKEYS.PLAID_DATA);
-        BankAccounts.openPlaidBankLogin(this.props.allowDebit);
+        BankAccounts.openPlaidBankLogin(this.props.allowDebit, this.props.bankAccountID);
     }
 
     /**

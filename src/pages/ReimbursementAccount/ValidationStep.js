@@ -193,6 +193,7 @@ class ValidationStep extends React.Component {
                     <ReimbursementAccountForm
                         reimbursementAccount={this.props.reimbursementAccount}
                         onSubmit={this.submit}
+                        buttonText={this.props.translate('validationStep.buttonText')}
                     >
                         <View style={[styles.mb2]}>
                             <Text style={[styles.mb5]}>

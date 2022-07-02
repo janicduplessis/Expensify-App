@@ -3,7 +3,7 @@ import * as BankAccounts from './actions/BankAccounts';
 import FormHelper from './FormHelper';
 
 const formHelper = new FormHelper({
-    errorPath: 'reimbursementAccount.errors',
+    errorPath: 'reimbursementAccount.errorFields',
     setErrors: BankAccounts.setBankAccountFormValidationErrors,
 });
 
