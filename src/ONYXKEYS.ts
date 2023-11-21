@@ -270,6 +270,9 @@ const ONYXKEYS = {
 
         /** This is deprecated, but needed for a migration, so we still need to include it here so that it will be initialized in Onyx.init */
         DEPRECATED_POLICY_MEMBER_LIST: 'policyMemberList_',
+
+        // Computed keys
+        SORTED_REPORT_ACTIONS_FOR_DISPLAY: 'sortedReportActionsForDisplay_',
     },
 
     /** List of Form ids */

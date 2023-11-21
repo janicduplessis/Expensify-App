@@ -470,6 +470,7 @@ export default compose(
                 key: ({route}) => `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${getReportID(route)}`,
                 canEvict: false,
                 selector: ReportActionsUtils.getSortedReportActionsForDisplay,
+                selectorCacheKey: ({route}) => `${ONYXKEYS.COLLECTION.SORTED_REPORT_ACTIONS}${getReportID(route)}`,
             },
             report: {
                 key: ({route}) => `${ONYXKEYS.COLLECTION.REPORT}${getReportID(route)}`,
