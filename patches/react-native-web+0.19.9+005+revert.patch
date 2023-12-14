@@ -1,0 +1,52 @@
+diff --git a/node_modules/react-native-web/dist/vendor/react-native/VirtualizedList/index.js b/node_modules/react-native-web/dist/vendor/react-native/VirtualizedList/index.js
+index faeb323..4577c5a 100644
+--- a/node_modules/react-native-web/dist/vendor/react-native/VirtualizedList/index.js
++++ b/node_modules/react-native-web/dist/vendor/react-native/VirtualizedList/index.js
+@@ -118,11 +118,7 @@ function findLastWhere(arr, predicate) {
+  */
+ class VirtualizedList extends StateSafePureComponent {
+   pushOrUnshift(input, item) {
+-    if (this.props.inverted) {
+-      input.unshift(item);
+-    } else {
+-      input.push(item);
+-    }
++    input.push(item);
+   }
+ 
+   // scrollToEnd may be janky without getItemLayout prop
+@@ -358,7 +354,6 @@ class VirtualizedList extends StateSafePureComponent {
+     };
+     this._defaultRenderScrollComponent = props => {
+       var onRefresh = props.onRefresh;
+-      var inversionStyle = this.props.inverted ? this.props.horizontal ? styles.rowReverse : styles.columnReverse : null;
+       if (this._isNestedWithSameOrientation()) {
+         // $FlowFixMe[prop-missing] - Typing ReactNativeComponent revealed errors
+         return /*#__PURE__*/React.createElement(View, props);
+@@ -377,14 +372,14 @@ class VirtualizedList extends StateSafePureComponent {
+               onRefresh: onRefresh,
+               progressViewOffset: props.progressViewOffset
+             }) : props.refreshControl,
+-            contentContainerStyle: [inversionStyle, this.props.contentContainerStyle]
++            contentContainerStyle: this.props.contentContainerStyle
+           }))
+         );
+       } else {
+         // $FlowFixMe[prop-missing] Invalid prop usage
+         // $FlowFixMe[incompatible-use]
+         return /*#__PURE__*/React.createElement(ScrollView, _extends({}, props, {
+-          contentContainerStyle: [inversionStyle, this.props.contentContainerStyle]
++          contentContainerStyle: this.props.contentContainerStyle
+         }));
+       }
+     };
+@@ -1119,7 +1114,8 @@ class VirtualizedList extends StateSafePureComponent {
+       _keylessItemComponentName = '';
+       var spacerKey = this._getSpacerKey(!horizontal);
+       var renderRegions = this.state.renderMask.enumerateRegions();
+-      var lastSpacer = findLastWhere(renderRegions, r => r.isSpacer);
++      var lastRegion = renderRegions[renderRegions.length - 1];
++      var lastSpacer = lastRegion != null && lastRegion.isSpacer ? lastRegion : null;
+       for (var _iterator = _createForOfIteratorHelperLoose(renderRegions), _step; !(_step = _iterator()).done;) {
+         var section = _step.value;
+         if (section.isSpacer) {
