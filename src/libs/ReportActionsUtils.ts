@@ -181,12 +181,19 @@ function isTransactionThread(parentReportAction: OnyxEntry<ReportAction>): boole
     );
 }
 
+let totalCalls = 0;
+
 /**
  * Sort an array of reportActions by their created timestamp first, and reportActionID second
  * This gives us a stable order even in the case of multiple reportActions created on the same millisecond
  *
  */
 function getSortedReportActions(reportActions: ReportAction[] | null, shouldSortInDescendingOrder = false, shouldMarkTheFirstItemAsNewest = false): ReportAction[] {
+    totalCalls++;
+
+    // eslint-disable-next-line no-console
+    console.warn('getSortedReportActions', totalCalls);
+
     if (!Array.isArray(reportActions)) {
         throw new Error(`ReportActionsUtils.getSortedReportActions requires an array, received ${typeof reportActions}`);
     }
