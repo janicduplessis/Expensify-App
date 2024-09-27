@@ -1,3 +1,3 @@
-import {FlatList} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 
-export default FlatList;
+export default FlashList;

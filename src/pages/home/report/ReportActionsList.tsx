@@ -750,6 +750,7 @@ function ReportActionsList({
                     onEndReachedThreshold={0.75}
                     onStartReached={onStartReached}
                     onStartReachedThreshold={0.75}
+                    estimatedItemSize={36}
                     ListFooterComponent={listFooterComponent}
                     ListHeaderComponent={listHeaderComponent}
                     keyboardShouldPersistTaps="handled"

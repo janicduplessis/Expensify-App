@@ -241,9 +241,7 @@ function ReportActionsView({
         if (isFirstLinkedActionRender.current) {
             return combinedReportActions.slice(indexOfLinkedAction);
         }
-        const paginationSize = getInitialPaginationSize;
-        return combinedReportActions.slice(Math.max(indexOfLinkedAction - paginationSize, 0));
-
+        return combinedReportActions;
         // currentReportActionID is needed to trigger batching once the report action has been positioned
         // eslint-disable-next-line react-compiler/react-compiler, react-hooks/exhaustive-deps
     }, [reportActionID, combinedReportActions, indexOfLinkedAction, currentReportActionID]);

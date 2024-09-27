@@ -1,15 +1,10 @@
+import {CellContainer} from '@shopify/flash-list';
+import type {CellContainerProps} from '@shopify/flash-list/dist/native/cell-container/CellContainer';
 import React from 'react';
-import type {StyleProp, ViewProps, ViewStyle} from 'react-native';
-import {View} from 'react-native';
 
-type CellRendererComponentProps = ViewProps & {
-    index: number;
-    style?: StyleProp<ViewStyle>;
-};
-
-function CellRendererComponent(props: CellRendererComponentProps) {
+function CellRendererComponent(props: CellContainerProps) {
     return (
-        <View
+        <CellContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
             style={[
@@ -21,7 +16,7 @@ function CellRendererComponent(props: CellRendererComponentProps) {
                  * list items. Consequently, lower list items can overflow the upper list items.
                  * See: https://github.com/Expensify/App/issues/20451
                  */
-                {zIndex: -props.index, position: 'relative'},
+                {zIndex: -props.index},
             ]}
         />
     );
