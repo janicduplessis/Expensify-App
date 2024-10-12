@@ -30,7 +30,9 @@ function BaseInvertedFlatList<T>(props: BaseInvertedFlatListProps<T>, ref: Forwa
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...rest}
             ref={ref}
-            maintainVisibleContentPosition={maintainVisibleContentPosition}
+            // maintainVisibleContentPosition={maintainVisibleContentPosition}
+            preserveVisiblePosition
+            startEdgePreserved
             inverted
         />
     );
