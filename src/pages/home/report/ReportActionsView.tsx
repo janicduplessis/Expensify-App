@@ -9,6 +9,7 @@ import {useOnyx} from 'react-native-onyx';
 import {AUTOSCROLL_TO_TOP_THRESHOLD} from '@components/InvertedFlatList/BaseInvertedFlatList';
 import useCopySelectionHelper from '@hooks/useCopySelectionHelper';
 import useInitialValue from '@hooks/useInitialValue';
+import useIsVisible from '@hooks/useIsVisible';
 import useNetwork from '@hooks/useNetwork';
 import usePrevious from '@hooks/usePrevious';
 import useReportScrollManager from '@hooks/useReportScrollManager';
@@ -25,7 +26,6 @@ import * as ReportUtils from '@libs/ReportUtils';
 import {isUserCreatedPolicyRoom} from '@libs/ReportUtils';
 import {didUserLogInDuringSession} from '@libs/SessionUtils';
 import shouldFetchReport from '@libs/shouldFetchReport';
-import Visibility from '@libs/Visibility';
 import {ReactionListContext} from '@pages/home/ReportScreenContext';
 import * as Report from '@userActions/Report';
 import Timing from '@userActions/Timing';
@@ -117,7 +117,6 @@ function ReportActionsView({
     const [transactionThreadReport] = useOnyx(`${ONYXKEYS.COLLECTION.REPORT}${transactionThreadReportID ?? -1}`);
     const accountID = session?.accountID;
     const userActiveSince = useRef<string>(DateUtils.getDBTime());
-    const [isVisible, setIsVisible] = useState(Visibility.isVisible());
     const lastMessageTime = useRef<string | null>(null);
     const scrollingVerticalOffset = useRef(0);
     const readActionSkipped = useRef(false);
@@ -128,6 +127,7 @@ function ReportActionsView({
     const didLoadOlderChats = useRef(false);
     const didLoadNewerChats = useRef(false);
     const {isOffline} = useNetwork();
+    const isVisible = useIsVisible();
     const reportScrollManager = useReportScrollManager();
 
     // triggerListID is used when navigating to a chat with messages loaded from LHN. Typically, these include thread actions, task actions, etc. Since these messages aren't the latest,we don't maintain their position and instead trigger a recalculation of their positioning in the list.
@@ -159,14 +159,6 @@ function ReportActionsView({
         }
         Report.updateLoadingInitialReportAction(report.reportID);
     }, [isOffline, report.reportID, reportActionID]);
-
-    useEffect(() => {
-        const unsubscriber = Visibility.onVisibilityChange(() => {
-            setIsVisible(Visibility.isVisible());
-        });
-
-        return unsubscriber;
-    }, []);
 
     // Change the list ID only for comment linking to get the positioning right
     const listID = useMemo(() => {
